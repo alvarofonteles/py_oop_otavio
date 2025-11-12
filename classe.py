@@ -66,14 +66,6 @@ class Pessoas:
 
 
 # Implementação para teste '__name__'
-class Animais:
-    def __init__(self, nome):
-        self.nome = nome
-
-    def andar(self):
-        print(f'{self.nome} está andando;')
-
-
 class Carros:
     def __init__(self, nome):
         self.nome = nome
