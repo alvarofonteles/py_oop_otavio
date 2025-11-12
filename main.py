@@ -1,10 +1,12 @@
 '''
 Classes - Python Orientado a Objetos - Aula 35.
 Métodos de Classes (@classmethod) - Python Orientado a Objetos - Aula 36
+Métodos estáticos (@staticmethod) - Python POO - Aula 37
 '''
 
-from classe import Pessoas, Carros
+from classe import Pessoas
 from classmethod import Animais
+from staticmethod_ import Carros
 
 
 def pessoas():
@@ -70,14 +72,63 @@ def animais():
     print(a2.andar())  # Fila está andando
 
 
-# Implementação para teste '__name__'
 def carros():
     c1 = Carros('Ferrari')
     c1.correr()
+
+    c2 = Carros('Celta')
+
+    # gera placa (com instância)
+    try:
+        print('(com instância)')
+        try:
+            p1 = c1.gera_placa(numero=2, letra='tA')  # (A-Z)
+            print(p1)
+        except Exception as e:
+            print(e)  # Letra deve ser um único caractere A-Z, recebido: [tA]
+        finally:
+            pass
+
+        try:
+            p2 = c2.gera_placa(numero=2, letra='S')  # (A-Z)
+            print(p2)  # BRA2S57
+        except Exception as e:
+            print(e)
+        finally:
+            pass
+
+    except Exception as e:
+        print(e)
+
+    # gera placa (com a classe)
+    print('(com a classe)')
+    try:
+        p3 = Carros.gera_placa(numero=14, letra='S')  # (0-9)
+        print(p3)
+    except Exception as e:
+        print(e)  # Número deve ser entre 0-9, recebido: [14]
+    finally:
+        pass
+
+    try:
+        p4 = Carros.gera_placa(numero=4, letra='T')  # (0-9)
+        print(p4)  # BRA4T22
+    except Exception as e:
+        print(e)
+    finally:
+        pass
+
+    try:
+        p5 = Carros.gera_placa(numero=17, letra='jL')  # (0-9)
+        print(p5)
+    except Exception as e:
+        print(e)  # Entre 0-9: [17] e/ou Único caractere A-Z: [jL]
+    finally:
+        pass
 
 
 # Testes Individuais!
 if __name__ == '__main__':
     pessoas()
     animais()
-    # carros()
+    carros()

@@ -63,12 +63,3 @@ class Pessoas:
     # método (API)
     def get_ano_nasc(self):
         return self.__ano_atual - self.__idade
-
-
-# Implementação para teste '__name__'
-class Carros:
-    def __init__(self, nome):
-        self.nome = nome
-
-    def correr(self):
-        print(f'{self.nome} está correndo.')
