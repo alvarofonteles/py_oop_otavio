@@ -4,6 +4,7 @@ Métodos de Classes (@classmethod) - Python Orientado a Objetos - Aula 36
 Métodos estáticos (@staticmethod) - Python POO - Aula 37
 @property - Getters e Setters - Python POO - Aula 38
 Atributos de Classe - Python POO - Aula 39
+Encapsulamento - Python POO - Aula 40
 '''
 
 from classe import Pessoas
@@ -11,8 +12,10 @@ from classmethod import Animais
 from staticmethod_ import Carros
 from property_ import Produtos
 from attribute_ import Casa
+from encapsulamento import BaseDeDados, ContaBancaria
 
 
+# class
 def pessoas():
 
     # Otávio
@@ -58,6 +61,7 @@ def pessoas():
     print(f'{p2.get_nome()} nasceu em {p2.get_ano_nasc()}')  # Maria nasceu em 2000
 
 
+# classmethod_
 def animais():
     # Instância da Classe
     a1 = Animais('Pastor', 5)
@@ -73,9 +77,10 @@ def animais():
     print(a2)  # <classmethod.Animais object at 0x000001CE494F17F0>>
     print(f'Seu Pet {a2.nome} tem {a2.idade} anos')  # Seu Pet Fila tem 5 anos
     print(f'Ele nasceu em {a1.get_ano_nasc()}')  # Ele nasceu em 2020
-    print(a2.andar())  # Fila está andando
+    print(a2.andar(), '\n')  # Fila está andando
 
 
+# staticmethod_
 def carros():
     c1 = Carros('Ferrari')
     c1.correr()
@@ -131,6 +136,7 @@ def carros():
         pass
 
 
+# property_
 def produtos():
 
     # entra na validação [R$, r$], [',', '.'] e ['   ']
@@ -160,13 +166,14 @@ def produtos():
     )  # Produto: Bolsa - Valor: R$ 91,21
 
     relogio = Produtos('Relógio', 398.17)
-    print(f'Valor: {relogio.preco_br}')  # Valor: R$ 398,17
+    print(f'Valor: {relogio.preco_br}', '\n')  # Valor: R$ 398,17
 
 
+# attribute_
 def casas():
     # criar duas instâncias
-    casa1 = Casa("Sala", "Vermelho")
-    casa2 = Casa("Quarto", "Azul")
+    casa1 = Casa('Sala', 'Vermelho')
+    casa2 = Casa('Quarto', 'Azul')
 
     # Antes
     print(casa1.__dict__)  #  {'comodo': 'Sala', 'cor': 'Vermelho'}
@@ -201,19 +208,115 @@ def casas():
     print(f'Casa.get_banheiros: {Casa.get_banheiros()}')  #  Casa.get_banheiros: 2
 
     # atributos normais de instância são independentes
-    casa1.cor = "Rosa"
+    casa1.cor = 'Rosa'
     print(casa1.cor)  # Rosa (apenas casa1)
     print(casa2.cor)  # Azul (apenas casa2)
 
     # Depois
     print(casa1.__dict__)  # {'comodo': 'Sala', 'cor': 'Rosa', 'banheiros': 3}
-    print(casa2.__dict__)  # {'comodo': 'Quarto', 'cor': 'Azul'}
+    print(casa2.__dict__, '\n')  # {'comodo': 'Quarto', 'cor': 'Azul'}
+
+
+# encapsulamento
+def base_de_dados():
+    # Oracle
+    db_1 = BaseDeDados(base='Oracle 1')
+    db_2 = BaseDeDados(base='Oracle 2')
+
+    db_1.inserir_dado(key=1, nome='Luíz')
+    db_1.inserir_dado(key=2, nome='Otávio')
+    db_1.inserir_dado(key=3, nome='Miranda')
+    db_1.apagar_dado(key=2)
+    db_1.listar_dados()
+    # base: Oracle 1, id: 1, nome: Luíz
+    # base: Oracle 1, id: 3, nome: Miranda
+
+    db_2.inserir_dado(key=4, nome='Ana')
+    db_2.inserir_dado(key=5, nome='Maria')
+    db_2.inserir_dado(key=6, nome='Lúcia')
+    db_2.listar_dados()
+    # base: Oracle 2, id: 4, nome: Ana
+    # base: Oracle 2, id: 5, nome: Maria
+    # base: Oracle 2, id: 6, nome: Lúcia
+
+    # print(db_1.__dados)  # privado (mangling)
+
+    # apenas para consulta (não se deve fazer, boas praticas)
+    print(db_1._BaseDeDados__dados)  #  {'Oracle 1': {1: 'Luíz', 3: 'Miranda'}}
+    print(db_2._BaseDeDados__dados)  #  {'Oracle 2': {4: 'Ana', 5: 'Maria', 6: 'Lúcia'}}
+
+    # com getter (@property)
+    print(db_1.dados)  # {'Oracle 1': {1: 'Luíz', 3: 'Miranda'}}}
+    print(db_2.dados, '\n')  # {'Oracle 2': {4: 'Ana', 5: 'Maria', 6: 'Lúcia'}}
+
+    # Sql Server
+    db_3 = BaseDeDados(base='Sql Server 1')
+
+    db_3.inserir_dado(key=1, nome='João')
+    db_3.inserir_dado(key=2, nome='Flávio')
+    db_3.inserir_dado(key=3, nome='Marcos')
+    db_3.apagar_dado(key=2)
+    db_3.listar_dados()
+
+
+# extra encapsulamento (estudo a parte)
+def contas_bancarias():
+    print('')
+    c1 = ContaBancaria('Ana', 1000)
+    print(c1.titular)  # Ana
+
+    # print(conta._saldo)  # acessa mas errado
+
+    print(c1.saldo)  # 1000
+    c1.depositar(500)
+    print(c1.saldo)  # 1500
+
+    # print(conta.__senha)  # atributo privado
+    # print(conta.senha)  # atributo privado
+
+    c1.sacar(450)
+    print(c1.saldo, '\n')  # 1050
+
+    # Conta Otávio
+    c2 = ContaBancaria('Otávio')
+    print(c2.titular)  # Otávio
+    print(c2.saldo)  # 0
+
+    try:
+        c2.sacar(450)
+    except Exception as e:
+        print(e)  # Saldo insuficiente ou valor inválido
+    finally:
+        pass
+
+    try:
+        c2.depositar(0)
+    except Exception as e:
+        print(e)  # Valor deve ser positivo
+    finally:
+        pass
+
+    c2.depositar(500)
+    print(c2.saldo)  # 500
 
 
 # Testes Individuais!
 if __name__ == '__main__':
+    # class
     pessoas()
+
+    # classmethod_
     animais()
+
+    # staticmethod_
     carros()
+
+    # property_
     produtos()
+
+    # attribute_
     casas()
+
+    # encapsulamento
+    base_de_dados()
+    contas_bancarias()  # extra
