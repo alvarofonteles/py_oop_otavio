@@ -3,12 +3,14 @@ Classes - Python Orientado a Objetos - Aula 35.
 Métodos de Classes (@classmethod) - Python Orientado a Objetos - Aula 36
 Métodos estáticos (@staticmethod) - Python POO - Aula 37
 @property - Getters e Setters - Python POO - Aula 38
+Atributos de Classe - Python POO - Aula 39
 '''
 
 from classe import Pessoas
 from classmethod import Animais
 from staticmethod_ import Carros
 from property_ import Produtos
+from attribute_ import Casa
 
 
 def pessoas():
@@ -161,9 +163,57 @@ def produtos():
     print(f'Valor: {relogio.preco_br}')  # Valor: R$ 398,17
 
 
+def casas():
+    # criar duas instâncias
+    casa1 = Casa("Sala", "Vermelho")
+    casa2 = Casa("Quarto", "Azul")
+
+    # Antes
+    print(casa1.__dict__)  #  {'comodo': 'Sala', 'cor': 'Vermelho'}
+    print(casa2.__dict__)  # {'comodo': 'Quarto', 'cor': 'Azul'}
+
+    # acessando atributo da classe (compartilhado)
+    # python verifica: casa.__dict__ não tem banheiros
+    # depois procura em: casa.__dict__ encontra banheiros=4
+    print(f'casa1.banheiros: {casa1.banheiros}')  # casa1.banheiros: 4
+    print(f'casa2.banheiros: {casa2.banheiros}')  # casa2.banheiros: 4
+
+    # alterar atributo da classe afeta TODAS as instâncias
+    Casa.set_banheiros(2)  # Modifica via setter (com validação)
+    # Acessa via getter
+    print(f'Casa.get_banheiros: {Casa.get_banheiros()}')  #  Casa.get_banheiros: 2
+
+    # acessando após mudança na classe
+    # ambas ainda usam atributo da classe
+    print(f'casa1.banheiros: {casa1.banheiros}')  # casa1.banheiros: 2
+    print(f'casa2.banheiros: {casa2.banheiros}')  # casa2.banheiros: 2
+
+    # alterar atributo da instância afeta apenas aquele objeto
+    # casa1.banheiros = 3 cria atributo próprio na instância!
+    # casa1.__dict__ vira: {'comodo': 'Sala', 'banheiros': 3}
+    casa1.banheiros = 3
+
+    # agora casa1 tem próprio banheiros, casa2 ainda usa da classe
+    print(f'casa1.banheiros: {casa1.banheiros}')  # casa1.banheiros: 3 (próprio)
+    print(f'casa2.banheiros: {casa2.banheiros}')  # casa2.banheiros: 2 (da classe)
+
+    # a classe mantém seu valor original (via getter)
+    print(f'Casa.get_banheiros: {Casa.get_banheiros()}')  #  Casa.get_banheiros: 2
+
+    # atributos normais de instância são independentes
+    casa1.cor = "Rosa"
+    print(casa1.cor)  # Rosa (apenas casa1)
+    print(casa2.cor)  # Azul (apenas casa2)
+
+    # Depois
+    print(casa1.__dict__)  # {'comodo': 'Sala', 'cor': 'Rosa', 'banheiros': 3}
+    print(casa2.__dict__)  # {'comodo': 'Quarto', 'cor': 'Azul'}
+
+
 # Testes Individuais!
 if __name__ == '__main__':
     pessoas()
     animais()
     carros()
     produtos()
+    casas()
