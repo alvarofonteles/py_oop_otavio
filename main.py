@@ -27,7 +27,7 @@ from relacionamentos import (
     Funcionario,
     Departamento,
     Empresa,
-    #
+    Cliente,
     Carro,
     Pedido,
 )
@@ -496,7 +496,8 @@ def agregacao():
 # composição
 def composicao():
 
-    # composição
+    #
+    # 1. extra composição (estudo a parte)
     print('')
     carro = Carro('Sedan', 120)
     carro.ligar()
@@ -511,21 +512,26 @@ def composicao():
     substituir partes internas sem alterar a interface externa
     '''
 
+    # 2. extra composição (estudo a parte)
     # ItemPedido não existe sem Pedido
 
     # adiciona apenas um produto
     p1 = Produto('iPhone', 8990.09)
     p2 = Produto('iPed', 3970.5)
 
-    pedido = Pedido(965274)
-    pedido.add_item(p1, 1)  # 1 iPhone
-    pedido.add_item(p2, 2)  # 2 iPeds
+    item_pedido = Pedido(965274)
+    item_pedido.add_item(p1, 1)  # 1 iPhone
+    item_pedido.add_item(p2, 2)  # 2 iPeds
 
-    print('\nadiciona apenas um produto\n')
-    for pedido in pedido.itens:
-        print(f'Pedido: {pedido.nome} >> {pedido.quantidade} unidade(s)')
-    # Pedido: iPhone - R$ 8990.09 >> 1 unidade(s)
-    # Pedido: iPed - R$ 3970.5 >> 2 unidade(s)
+    # adiciona apenas um produto
+    print('')
+    item_pedido.listar_pedidos()
+    # Produto: iPhone - Qtd: 1
+    #   Valor: 8990.09
+    #     Total: 8990,09
+    # Produto: iPed - Qtd: 2
+    #   Valor: 3970.5
+    #     Total: 7941,00
 
     # adiciona multiplos
     p1 = Produto('iPhone', 8990.09)
@@ -533,42 +539,92 @@ def composicao():
     p3 = Produto('MacBook', 17590)
 
     produtos = [p1, p2, p3]
-    quantidades = [1, 2, 1]  # 1 iPhone, 2 iPeds, 1 MacBook
+    quantidades = [1, 2, 2]  # 1 iPhone, 2 iPeds, 2 MacBook
 
-    pedido = Pedido(472569)
-    pedido.add_itens(produtos, quantidades)  # todos de uma vez
+    item_pedido = Pedido(472569)
+    item_pedido.add_itens(produtos, quantidades)  # todos de uma vez
 
-    print('\nadiciona multiplos\n')
-    for pedido in pedido.itens:
-        print(f'Pedido: {pedido.nome} >> {pedido.quantidade} unidade(s)')
+    # adiciona multiplos
+    print('')
+    item_pedido.listar_pedidos()
+    # Produto: iPhone - Qtd: 1
+    #   Valor: 8990.09
+    #     Total: 8990,09
+    # Produto: iPed - Qtd: 2
+    #   Valor: 3970.5
+    #     Total: 7941,00
+    # Produto: MacBook - Qtd: 2
+    #   Valor: 17590
+    #     Total: 35180,00
 
-    # Pedido: iPhone - R$ 8990.09 >> 1 unidade(s)
-    # Pedido: iPed - R$ 3970.5 >> 2 unidade(s)
-    # Pedido: MacBook - R$ 17590 >> 1 unidade(s)
+    #
+    # Endereços de Clientes
+    print('######## INICIO DA COMPOSIÇÃO ENDEREÇOS DE CLIENTE ########\n')
+
+    c1 = Cliente(nome='Carlinhos', idade=27)
+    c2 = Cliente(nome='Marlene', idade=31)
+    c3 = Cliente(nome='José', idade=42)
+
+    c1.inserir_endereco('Rio de Janeiro', estado='RJ')
+    c1.inserir_endereco('São Paulo', estado='SP')
+    c1.inserir_endereco('Curitiba', estado='PR')
+
+    c1.listar_enderecos()
+    # Cliente: Carlinhos, 27
+    #   Endereço: Rio de Janeiro - RJ
+    #   Endereço: São Paulo - SP
+    #   Endereço: Curitiba - PR
+
+    # apenas para teste, depois comentar [cliente 1]
+    print()
+    del c1
+    # Carlinhos FOI APAGADO!
+    # Curitiba - PR FOI APAGADO!
+    # São Paulo - SP FOI APAGADO!
+    # Rio de Janeiro - RJ FOI APAGADO!
+    # print()
+
+    c2.inserir_endereco('Brasília', estado='DF')
+    c2.inserir_endereco('Recife', estado='PE')
+
+    c2.listar_enderecos()
+    # Cliente: Marlene, 31
+    #   Endereço: Brasília - DF
+    #   Endereço: Recife - PE
+
+    c3.listar_enderecos()
+    # Cliente: José, 42
+    print('\n######## FIM DA COMPOSIÇÃO ENDEREÇOS DE CLIENTE ########')
+    # GARABAGE COLLECTION EM ACÃO
+
+    # Marlene FOI APAGADO!
+    # Recife - PE FOI APAGADO!
+    # Brasília - DF FOI APAGADO!
+    # José FOI APAGADO!
 
 
 # Testes Individuais!
 if __name__ == '__main__':
     # class
-    # pessoas()
+    pessoas()
 
     # classmethod_
-    # animais()
+    animais()
 
     # staticmethod_
-    # carros()
+    carros()
 
     # property_
-    # produtos()
+    produtos()
 
     # attribute_
-    # casas()
+    casas()
 
     # encapsulamento
-    # base_de_dados()
-    # contas_bancarias()  # extra
+    base_de_dados()
+    contas_bancarias()  # extra
 
     # relacionamentos
-    # associacao()
-    # agregacao()
+    associacao()
+    agregacao()
     composicao()

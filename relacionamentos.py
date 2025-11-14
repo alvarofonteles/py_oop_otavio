@@ -129,9 +129,62 @@ class Empresa:
 
 
 # composição
+# Endereços de Clientes
+class Cliente:
+    '''Cliente'''
+
+    def __init__(self, nome, idade):
+        self._nome = nome
+        self._idade = idade
+        self._enderecos = []
+
+    @property
+    def nome(self):
+        return self._nome
+
+    @property
+    def idade(self):
+        return self._idade
+
+    @property
+    def enderecos(self):
+        return self._enderecos.copy()
+
+    def inserir_endereco(self, cidade, *, estado):
+        '''Insere Cidade do Cliente'''
+        endereco_ = _Endereco(cidade, estado)  # composição
+        self._enderecos.append(endereco_)
+
+    def listar_enderecos(self):
+        print(f'Cliente: {self.nome}, {self.idade}')
+        for endereco in self.enderecos:
+            print(f'  Endereço: {endereco.cidade} - {endereco.estado}')
+
+    # apenas para teste, depois comentar
+    def __del__(self):
+        print(f'{self.nome} FOI APAGADO!')
 
 
-#
+class _Endereco:
+    '''Endereço do Cliente'''
+
+    def __init__(self, cidade: str, estado: str):
+        self._cidade = cidade
+        self._estado = estado
+
+    @property
+    def cidade(self):
+        return self._cidade
+
+    @property
+    def estado(self):
+        return self._estado
+
+    # apenas para teste, depois comentar
+    def __del__(self):
+        print(f'{self.cidade} - {self.estado} FOI APAGADO!')
+
+
 # 1. extra composição (estudo a parte)
 # classe que será usada dentro de outra
 class Motor:
@@ -166,8 +219,20 @@ class _ItemPedido:  # uso interno da class (conveção)
     '''Item de pedido - criar apenas via Pedido.add_item()'''
 
     def __init__(self, produto, quantidade):
-        self.nome = produto
+        self.produto = produto
         self.quantidade = quantidade
+
+    @property
+    def nome(self):
+        return self.produto.nome  # delegar para o Produto
+
+    @property
+    def preco(self):
+        return self.produto.preco
+
+    @property
+    def preco_total(self):
+        return self.produto.preco * self.quantidade
 
 
 class Pedido:
@@ -202,7 +267,16 @@ class Pedido:
             raise ValueError('Produtos e quantidades devem ter o mesmo tamanho')
 
         # list comprehension
+
         [
-            self.add_item(produto, quantidade)
+            self.add_item(produto, quantidade)  # chama add_item
             for produto, quantidade in zip(produtos, quantidades)
         ]
+
+    def listar_pedidos(self):
+        for item_pedido in self.itens:
+            print(
+                f'Produto: {item_pedido.produto.nome} - Qtd: {item_pedido.quantidade}'
+            )
+            print(f'  Valor: {item_pedido.preco}')
+            print(f'    Total: {item_pedido.preco_total:.2f}'.replace('.', ','))
