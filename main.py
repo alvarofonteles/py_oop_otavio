@@ -5,6 +5,7 @@ Métodos estáticos (@staticmethod) - Python POO - Aula 37
 @property - Getters e Setters - Python POO - Aula 38
 Atributos de Classe - Python POO - Aula 39
 Encapsulamento - Python POO - Aula 40
+Associação - Python Orientado a Objetos - Aula 41
 '''
 
 from classe import Pessoas
@@ -13,6 +14,7 @@ from staticmethod_ import Carros
 from property_ import Produtos
 from attribute_ import Casa
 from encapsulamento import BaseDeDados, ContaBancaria
+from relacionamentos import Escritor, Caneta, MaquinaDeEscrever, Produto, Carrinho
 
 
 # class
@@ -300,6 +302,90 @@ def contas_bancarias():
     print(c2.saldo)  # 500
 
 
+# relacionamentos
+# associação
+def associacao():
+
+    # escritor
+    escritor = Escritor('Carlos')
+
+    # caneta
+    caneta = Caneta('Bic')
+
+    # máquina de escrever
+    maquina = MaquinaDeEscrever('Olivetti')
+
+    # lista de ferramentas [1:N]
+    escritor.ferramentas.append(caneta)
+    escritor.ferramentas.append(maquina)
+
+    # acessando as ferramentas
+    print('lista de ferramentas [1:N]')
+    for ferramenta in escritor.ferramentas:
+        print(f'O Escritor {escritor.nome}, {ferramenta.escrever()} {ferramenta.marca}')
+    # O Escritor Carlos, está escrevendo com a Caneta Bic
+    # O Escritor Carlos, está escrevendo com a Máquina de escrever Olivetti
+
+    # apenas para testes/demo (desmonta o encapsulamento)
+    print('\nTeste Demostrativo [1:N]')
+    ferramentas = [caneta, maquina]  # quick and dirty
+    for ferramenta in ferramentas:
+        print(f'O Escritor {escritor.nome}, {ferramenta.escrever()} {ferramenta.marca}')
+    # O Escritor Carlos, está escrevendo com a Caneta Bic
+    # O Escritor Carlos, está escrevendo com a Máquina de escrever Olivetti
+
+    # associação escritor [caneta e maquina] [1:N] sobrescreve
+    print('\nferramenta [1:1]')
+    escritor.ferramenta = caneta
+    print(
+        f'O Escritor {escritor.nome}, {escritor.ferramenta.escrever()} {caneta.marca}'
+    )  # O Escritor Carlos, está escrevendo com a Caneta Bic
+
+    escritor.ferramenta = maquina
+    print(
+        f'O Escritor {escritor.nome}, {escritor.ferramenta.escrever()} {maquina.marca}\n'
+    )  # O Escritor Carlos, está escrevendo com a Máquina de escrever Olivetti
+
+    # se deletar escrito ainda continua independetes [caneta, maqina]
+    del escritor
+    print(caneta.marca)  # Bic
+    print(maquina.escrever(), '\n')  # está escrevendo com a Máquina de escrever
+
+    # extra associação (estudo a parte)
+    # produto existe sem carrinho, carrinho usa produtos
+    produto1 = Produto("Notebook", 2000)
+    produto2 = Produto("Mouse", 150)
+
+    # forma usando o __str__
+    print(produto1)  # Notebook - R$ 2000
+    print(produto2)  # Mouse - R$ 150
+
+    # implantção simples
+    print(produto1.nome)
+    print(produto2.preco)
+
+    carrinho = Carrinho()
+    carrinho.produtos.append(produto1)  # associação simples
+    carrinho.produtos.append(produto2)
+
+    # forma usando o __str__
+    print(carrinho)  # Carrinho com 2 produtos:
+    # - Notebook - R$ 2000
+    # - Mouse - R$ 150
+
+    # implantção simples
+    # acesso direto ao indice
+    print(carrinho.produtos[0].nome)
+    print(carrinho.produtos[1].nome)
+
+    print(carrinho.produtos[0].preco)
+    print(carrinho.produtos[1].preco)
+
+    # acesso por loop
+    for produtos in carrinho.produtos:
+        print(produtos.nome, produtos.preco)
+
+
 # Testes Individuais!
 if __name__ == '__main__':
     # class
@@ -320,3 +406,6 @@ if __name__ == '__main__':
     # encapsulamento
     base_de_dados()
     contas_bancarias()  # extra
+
+    # relacionamentos
+    associacao()
