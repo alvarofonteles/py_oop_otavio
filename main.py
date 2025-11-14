@@ -6,6 +6,7 @@ Métodos estáticos (@staticmethod) - Python POO - Aula 37
 Atributos de Classe - Python POO - Aula 39
 Encapsulamento - Python POO - Aula 40
 Associação - Python Orientado a Objetos - Aula 41
+Agregação - Python Orientado a Objetos - Aula 42
 '''
 
 from classe import Pessoas
@@ -14,7 +15,16 @@ from staticmethod_ import Carros
 from property_ import Produtos
 from attribute_ import Casa
 from encapsulamento import BaseDeDados, ContaBancaria
-from relacionamentos import Escritor, Caneta, MaquinaDeEscrever, Produto, Carrinho
+from relacionamentos import (
+    Escritor,
+    Caneta,
+    MaquinaDeEscrever,
+    Produto,
+    Carrinho,
+    Funcionario,
+    Departamento,
+    Empresa,
+)
 
 
 # class
@@ -334,7 +344,7 @@ def associacao():
     # O Escritor Carlos, está escrevendo com a Caneta Bic
     # O Escritor Carlos, está escrevendo com a Máquina de escrever Olivetti
 
-    # associação escritor [caneta e maquina] [1:N] sobrescreve
+    # associação escritor [caneta e maquina] [1:1] sobrescreve
     print('\nferramenta [1:1]')
     escritor.ferramenta = caneta
     print(
@@ -386,6 +396,51 @@ def associacao():
         print(produtos.nome, produtos.preco)
 
 
+# agregação [1:N]
+def agregacao():
+    # funcionário existe sem departamento
+    # TI
+    func1 = Funcionario("João", "Analista")
+    func2 = Funcionario("Fábio", "Dev")
+    func3 = Funcionario("Marciel", "PMO")
+    # RH
+    func4 = Funcionario("Marta", "DHO")
+    # FI
+    func5 = Funcionario("Maria", "Financeiro")
+    func6 = Funcionario("Cláudia", "Financeiro")
+
+    # departamentos
+    depto1 = Departamento("TI")
+    depto2 = Departamento("FI")
+    depto3 = Departamento("RH")
+
+    # agregação em múltiplos níveis
+    # departamento tem funcionários
+    # TI
+    depto1.funcionarios.extend([func1, func2, func3])
+    # RH
+    depto3.funcionarios.extend([func4])
+    # FI
+    depto2.funcionarios.extend([func5, func6])
+
+    # lista de departamento
+    departamentos = [depto1, depto2, depto3]
+
+    empresa = Empresa('Nubank')
+    empresa.departamentos.extend(departamentos)
+
+    empresas = [empresa]
+
+    # listar funcionario/departamento/empresa
+    for emp in empresas:
+        print(f'Empresa: {emp.nome}')
+        for depto in emp.departamentos:
+            print(f'  Departamento: {depto.nome}')
+            print(f'    Funcionários:')
+            for func in depto.funcionarios:
+                print(f'      {func.nome} - {func.cargo}')
+
+
 # Testes Individuais!
 if __name__ == '__main__':
     # class
@@ -409,3 +464,4 @@ if __name__ == '__main__':
 
     # relacionamentos
     associacao()
+    agregacao()
