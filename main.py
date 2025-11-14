@@ -21,6 +21,8 @@ from relacionamentos import (
     MaquinaDeEscrever,
     Produto,
     Carrinho,
+    Filme,
+    Favorito,
     Funcionario,
     Departamento,
     Empresa,
@@ -397,7 +399,39 @@ def associacao():
 
 
 # agregação [1:N]
+# relação todo-parte fraca onde partes sobrevivem sozinhas
 def agregacao():
+    # agregação
+    # filme
+    f1 = Filme('A Máquina do Tempo')
+    f2 = Filme('007 - Missão Impossível')
+    f3 = Filme('Caça Fantasmas')
+    f4 = Filme('Homem Aranha')
+
+    # lista filmes
+    filmes = [f1, f2, f3, f4]
+
+    # favorito
+    favorito = Favorito()
+
+    # insere filme favorito
+    favorito.inserir_filme(filmes)
+
+    # lista filmes favoritados
+    print('')
+    favorito.listar_filme()
+    # Filmes:
+    #   A Máquina do Tempo
+    #   007 - Missão Impossível
+    #   Caça Fantasmas
+    #   Homem Aranha
+    # Adicionado: 4 filmes
+
+    # quantidade de filmes favoritados
+    print(favorito.contador())
+    # Adicionado: 4 filmes
+
+    # extra agregação (estudo a parte)
     # funcionário existe sem departamento
     # TI
     func1 = Funcionario("João", "Analista")
@@ -433,13 +467,27 @@ def agregacao():
 
     # listar funcionario/departamento/empresa
     for emp in empresas:
-        print(f'Empresa: {emp.nome}')
+        print(f'\nEmpresa: {emp.nome}')
         for depto in emp.departamentos:
             print(f'  Departamento: {depto.nome}')
             print(f'    Funcionários:')
             for func in depto.funcionarios:
                 print(f'      {func.nome} - {func.cargo}')
 
+
+# Empresa: Nubank
+#   Departamento: TI
+#     Funcionários:
+#       João - Analista
+#       Fábio - Dev
+#       Marciel - PMO
+#   Departamento: FI
+#     Funcionários:
+#       Maria - Financeiro
+#       Cláudia - Financeiro
+#   Departamento: RH
+#     Funcionários:
+#       Marta - DHO
 
 # Testes Individuais!
 if __name__ == '__main__':

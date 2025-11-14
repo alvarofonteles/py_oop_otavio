@@ -76,8 +76,38 @@ class Carrinho:
         return f'Carrinho com {len(self.produtos)} produtos:\n{produtos_str}'
 
 
-# extra associação (estudo a parte)
 # agregação
+# relação todo-parte fraca onde partes sobrevivem sozinhas
+class Filme:
+    def __init__(self, nome):
+        self.nome = nome
+
+
+class Favorito:
+    def __init__(self):
+        self.__filme = []
+
+    @property
+    def filme(self):
+        return self.__filme
+
+    @filme.setter
+    def filme(self, valor):
+        self.__filme = valor
+
+    def inserir_filme(self, filme):
+        self.filme.extend(filme)
+
+    def listar_filme(self):
+        print(f'Filmes:')
+        for lista in self.filme:
+            print(f'  {lista.nome}')
+
+    def contador(self):
+        return f'Adicionado: {len([f for f in self.filme])} filmes'
+
+
+# extra agregação (estudo a parte)
 # relação todo-parte fraca onde partes sobrevivem sozinhas
 class Funcionario:
     def __init__(self, nome, cargo):
