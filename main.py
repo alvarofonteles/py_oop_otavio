@@ -7,6 +7,7 @@ Atributos de Classe - Python POO - Aula 39
 Encapsulamento - Python POO - Aula 40
 Associação - Python Orientado a Objetos - Aula 41
 Agregação - Python Orientado a Objetos - Aula 42
+Composição - Python Orientado a Objetos - Aula 43
 '''
 
 from classe import Pessoas
@@ -26,6 +27,9 @@ from relacionamentos import (
     Funcionario,
     Departamento,
     Empresa,
+    #
+    Carro,
+    Pedido,
 )
 
 
@@ -365,8 +369,8 @@ def associacao():
 
     # extra associação (estudo a parte)
     # produto existe sem carrinho, carrinho usa produtos
-    produto1 = Produto("Notebook", 2000)
-    produto2 = Produto("Mouse", 150)
+    produto1 = Produto('Notebook', 2000)
+    produto2 = Produto('Mouse', 150)
 
     # forma usando o __str__
     print(produto1)  # Notebook - R$ 2000
@@ -434,19 +438,19 @@ def agregacao():
     # extra agregação (estudo a parte)
     # funcionário existe sem departamento
     # TI
-    func1 = Funcionario("João", "Analista")
-    func2 = Funcionario("Fábio", "Dev")
-    func3 = Funcionario("Marciel", "PMO")
+    func1 = Funcionario('João', 'Analista')
+    func2 = Funcionario('Fábio', 'Dev')
+    func3 = Funcionario('Marciel', 'PMO')
     # RH
-    func4 = Funcionario("Marta", "DHO")
+    func4 = Funcionario('Marta', 'DHO')
     # FI
-    func5 = Funcionario("Maria", "Financeiro")
-    func6 = Funcionario("Cláudia", "Financeiro")
+    func5 = Funcionario('Maria', 'Financeiro')
+    func6 = Funcionario('Cláudia', 'Financeiro')
 
     # departamentos
-    depto1 = Departamento("TI")
-    depto2 = Departamento("FI")
-    depto3 = Departamento("RH")
+    depto1 = Departamento('TI')
+    depto2 = Departamento('FI')
+    depto3 = Departamento('RH')
 
     # agregação em múltiplos níveis
     # departamento tem funcionários
@@ -474,42 +478,97 @@ def agregacao():
             for func in depto.funcionarios:
                 print(f'      {func.nome} - {func.cargo}')
 
+    ### Empresa: Nubank
+    #   Departamento: TI
+    #     Funcionários:
+    #       João - Analista
+    #       Fábio - Dev
+    #       Marciel - PMO
+    #   Departamento: FI
+    #     Funcionários:
+    #       Maria - Financeiro
+    #       Cláudia - Financeiro
+    #   Departamento: RH
+    #     Funcionários:
+    #       Marta - DHO
 
-# Empresa: Nubank
-#   Departamento: TI
-#     Funcionários:
-#       João - Analista
-#       Fábio - Dev
-#       Marciel - PMO
-#   Departamento: FI
-#     Funcionários:
-#       Maria - Financeiro
-#       Cláudia - Financeiro
-#   Departamento: RH
-#     Funcionários:
-#       Marta - DHO
+
+# composição
+def composicao():
+
+    # composição
+    print('')
+    carro = Carro('Sedan', 120)
+    carro.ligar()
+    carro.desligar()
+    # Ligando o carro Sedan
+    # Motor de 120CV ligado.
+    # Desligando o carro Sedan
+    # Motor desligado.
+
+    '''
+    reutilizar código sem criar hierarquias complexas, facilitar manutenção e testes, 
+    substituir partes internas sem alterar a interface externa
+    '''
+
+    # ItemPedido não existe sem Pedido
+
+    # adiciona apenas um produto
+    p1 = Produto('iPhone', 8990.09)
+    p2 = Produto('iPed', 3970.5)
+
+    pedido = Pedido(965274)
+    pedido.add_item(p1, 1)  # 1 iPhone
+    pedido.add_item(p2, 2)  # 2 iPeds
+
+    print('\nadiciona apenas um produto\n')
+    for pedido in pedido.itens:
+        print(f'Pedido: {pedido.nome} >> {pedido.quantidade} unidade(s)')
+    # Pedido: iPhone - R$ 8990.09 >> 1 unidade(s)
+    # Pedido: iPed - R$ 3970.5 >> 2 unidade(s)
+
+    # adiciona multiplos
+    p1 = Produto('iPhone', 8990.09)
+    p2 = Produto('iPed', 3970.5)
+    p3 = Produto('MacBook', 17590)
+
+    produtos = [p1, p2, p3]
+    quantidades = [1, 2, 1]  # 1 iPhone, 2 iPeds, 1 MacBook
+
+    pedido = Pedido(472569)
+    pedido.add_itens(produtos, quantidades)  # todos de uma vez
+
+    print('\nadiciona multiplos\n')
+    for pedido in pedido.itens:
+        print(f'Pedido: {pedido.nome} >> {pedido.quantidade} unidade(s)')
+
+    # Pedido: iPhone - R$ 8990.09 >> 1 unidade(s)
+    # Pedido: iPed - R$ 3970.5 >> 2 unidade(s)
+    # Pedido: MacBook - R$ 17590 >> 1 unidade(s)
+
 
 # Testes Individuais!
 if __name__ == '__main__':
     # class
-    pessoas()
+    # pessoas()
 
     # classmethod_
-    animais()
+    # animais()
 
     # staticmethod_
-    carros()
+    # carros()
 
     # property_
-    produtos()
+    # produtos()
 
     # attribute_
-    casas()
+    # casas()
 
     # encapsulamento
-    base_de_dados()
-    contas_bancarias()  # extra
+    # base_de_dados()
+    # contas_bancarias()  # extra
 
     # relacionamentos
-    associacao()
-    agregacao()
+    # associacao()
+    # agregacao()
+    composicao()
