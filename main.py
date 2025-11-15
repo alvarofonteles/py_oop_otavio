@@ -9,6 +9,9 @@ Associação - Python Orientado a Objetos - Aula 41
 Agregação - Python Orientado a Objetos - Aula 42
 Composição - Python Orientado a Objetos - Aula 43
 Herança simples - Python Orientado a Objetos - Aula 44
+
+Extra Polimorfismo Simples - Mesma Interface, Comportamentos Diferentes
+- Princípio de Liskov (LSP) - Substituição de Tipos
 '''
 
 from classe import Pessoas
@@ -38,6 +41,7 @@ from relacionamentos import (
     Cliente,
 )
 from heranca import Pessoa, Cliente as cli, Aluno
+from polimorfismo import Cachorro, Gato, Pato, Leao, fazer_barulho
 
 
 # classe
@@ -632,6 +636,34 @@ def heranca():
     # a1.comprar()  # não usa de cliente
 
 
+def polimorfismo():
+
+    # Lista de animais diferentes
+    animais = [Cachorro(), Gato(), Pato(), Leao()]
+
+    print()
+
+    # Mesma interface, comportamentos diferentes
+    for animal in animais:
+        print(f'{animal.nome_class}: {animal.falar()}')
+        
+    # Cachorro: au au!
+    # Gato: miau!
+    # Pato: quack!
+    # Leao: roar!
+
+    print()
+
+    # Usando função genérica (princípio de liskov)
+    for animal in animais:
+        print(fazer_barulho(animal))
+
+    # au au!
+    # miau!
+    # quack!
+    # roar!
+
+
 # Testes Individuais!
 if __name__ == '__main__':
     # classe
@@ -658,3 +690,6 @@ if __name__ == '__main__':
     agregacao()
     composicao()
     heranca()
+
+    # polimorfismo
+    polimorfismo()  # extra
