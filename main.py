@@ -1,5 +1,5 @@
 '''
-Classes - Python Orientado a Objetos - Aula 35.
+Classes - Python Orientado a Objetos - Aula 35
 Métodos de Classes (@classmethod) - Python Orientado a Objetos - Aula 36
 Métodos estáticos (@staticmethod) - Python POO - Aula 37
 @property - Getters e Setters - Python POO - Aula 38
@@ -8,6 +8,7 @@ Encapsulamento - Python POO - Aula 40
 Associação - Python Orientado a Objetos - Aula 41
 Agregação - Python Orientado a Objetos - Aula 42
 Composição - Python Orientado a Objetos - Aula 43
+Herança simples - Python Orientado a Objetos - Aula 44
 '''
 
 from classe import Pessoas
@@ -16,24 +17,30 @@ from staticmethod_ import Carros
 from property_ import Produtos
 from attribute_ import Casa
 from encapsulamento import BaseDeDados, ContaBancaria
+
+# relacionamentos (associação|agregação|composição)
 from relacionamentos import (
+    # associação
     Escritor,
     Caneta,
     MaquinaDeEscrever,
     Produto,
     Carrinho,
+    # agregação
     Filme,
     Favorito,
     Funcionario,
     Departamento,
     Empresa,
-    Cliente,
+    # composição
     Carro,
     Pedido,
+    Cliente,
 )
+from heranca import Pessoa, Cliente as cli, Aluno
 
 
-# class
+# classe
 def pessoas():
 
     # Otávio
@@ -59,7 +66,7 @@ def pessoas():
 
     print(f'{p1.get_nome()} nasceu em {p1.get_ano_nasc()}')  # Otávio nasceu em 1990
 
-    print('')
+    print()
     # Maria
     p2 = Pessoas('Maria', 25)
     p2.comer('Salada de Fruda')  # Maria 25, está comendo Salada de Fruda.
@@ -83,7 +90,7 @@ def pessoas():
 def animais():
     # Instância da Classe
     a1 = Animais('Pastor', 5)
-    print('')
+    print()
     print(a1)  # <classmethod.Animais object at 0x000001CE494F1700>>
     print(f'Seu Pet {a1.nome} tem {a1.idade} anos')  # Seu Pet Pastor tem 5 anos
     print(f'Ele nasceu em {a1.get_ano_nasc()}')  # Ele nasceu em 2020
@@ -91,14 +98,14 @@ def animais():
 
     # Método da Classe
     a2 = Animais.por_ano_nasc('Fila', 2020)
-    print('')
+    print()
     print(a2)  # <classmethod.Animais object at 0x000001CE494F17F0>>
     print(f'Seu Pet {a2.nome} tem {a2.idade} anos')  # Seu Pet Fila tem 5 anos
     print(f'Ele nasceu em {a1.get_ano_nasc()}')  # Ele nasceu em 2020
     print(a2.andar(), '\n')  # Fila está andando
 
 
-# staticmethod_
+# staticmethod
 def carros():
     c1 = Carros('Ferrari')
     c1.correr()
@@ -158,7 +165,7 @@ def carros():
 def produtos():
 
     # entra na validação [R$, r$], [',', '.'] e ['   ']
-    print('')
+    print()
     camisa = Produtos('CAMISA', 'r$ 69,99')
     valor = camisa.desconto(10)  # 10%
     print(
@@ -279,7 +286,7 @@ def base_de_dados():
 
 # extra encapsulamento (estudo a parte)
 def contas_bancarias():
-    print('')
+    print()
     c1 = ContaBancaria('Ana', 1000)
     print(c1.titular)  # Ana
 
@@ -318,7 +325,7 @@ def contas_bancarias():
     print(c2.saldo)  # 500
 
 
-# relacionamentos
+# relacionamentos (associação|agregação|composição|herança)
 # associação
 def associacao():
 
@@ -402,10 +409,11 @@ def associacao():
         print(produtos.nome, produtos.preco)
 
 
-# agregação [1:N]
-# relação todo-parte fraca onde partes sobrevivem sozinhas
+# agregação
 def agregacao():
-    # agregação
+
+    # relação todo-parte fraca onde partes sobrevivem sozinhas
+
     # filme
     f1 = Filme('A Máquina do Tempo')
     f2 = Filme('007 - Missão Impossível')
@@ -422,7 +430,7 @@ def agregacao():
     favorito.inserir_filme(filmes)
 
     # lista filmes favoritados
-    print('')
+    print()
     favorito.listar_filme()
     # Filmes:
     #   A Máquina do Tempo
@@ -496,9 +504,8 @@ def agregacao():
 # composição
 def composicao():
 
-    #
     # 1. extra composição (estudo a parte)
-    print('')
+    print()
     carro = Carro('Sedan', 120)
     carro.ligar()
     carro.desligar()
@@ -524,7 +531,7 @@ def composicao():
     item_pedido.add_item(p2, 2)  # 2 iPeds
 
     # adiciona apenas um produto
-    print('')
+    print()
     item_pedido.listar_pedidos()
     # Produto: iPhone - Qtd: 1
     #   Valor: 8990.09
@@ -545,7 +552,7 @@ def composicao():
     item_pedido.add_itens(produtos, quantidades)  # todos de uma vez
 
     # adiciona multiplos
-    print('')
+    print()
     item_pedido.listar_pedidos()
     # Produto: iPhone - Qtd: 1
     #   Valor: 8990.09
@@ -582,7 +589,6 @@ def composicao():
     # Curitiba - PR FOI APAGADO!
     # São Paulo - SP FOI APAGADO!
     # Rio de Janeiro - RJ FOI APAGADO!
-    # print()
 
     c2.inserir_endereco('Brasília', estado='DF')
     c2.inserir_endereco('Recife', estado='PE')
@@ -603,15 +609,38 @@ def composicao():
     # José FOI APAGADO!
 
 
+# herança
+def heranca():
+    # pessoa usa apenas sua estrutura
+    print()
+
+    p1 = Pessoa('Luiz', 37)
+    p1.falando()  # Pessoa está falando...
+    # p1.comprar()  # não usa de cliente
+    # p1.estudar()  # não usa de aluno
+
+    # cliente usa sua estrutura e herda de pessoa
+    c1 = cli('Otávio', 29)  # alias [cli], pois já tem Cliente
+    c1.falando()  # Cliente está falando...
+    c1.comprar()  # Cliente está comprando...
+    # c1.estudar() # não usa de aluno
+
+    # aluno usa sua estrutura e herda de pessoa
+    a1 = Aluno('Miranda', 45)
+    a1.falando()  # Aluno está falando...
+    a1.estudar()  # Aluno está estudando...
+    # a1.comprar()  # não usa de cliente
+
+
 # Testes Individuais!
 if __name__ == '__main__':
-    # class
+    # classe
     pessoas()
 
     # classmethod_
     animais()
 
-    # staticmethod_
+    # staticmethod
     carros()
 
     # property_
@@ -628,3 +657,4 @@ if __name__ == '__main__':
     associacao()
     agregacao()
     composicao()
+    heranca()
