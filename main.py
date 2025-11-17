@@ -12,6 +12,10 @@ Herança simples - Python Orientado a Objetos - Aula 44
 
 Extra Polimorfismo Simples - Mesma Interface, Comportamentos Diferentes
 - Princípio de Liskov (LSP) - Substituição de Tipos
+
+-- Material de Apoio
+- Python Dataclasses - pare de criar classes desnecessárias
+- Aprenda a usar Metaclass no Python e entenda como as classes são criadas
 '''
 
 from classe import Pessoas
@@ -43,6 +47,7 @@ from relacionamentos import (
 from heranca import Pessoa, Cliente as cli, Aluno
 from polimorfismo import Cachorro, Gato, Pato, Leao, fazer_barulho
 from dataclass_ import OldPerson, Person
+from metaclass_ import City, Neighborhood, Dog, Person as PersonOM
 
 
 # classe
@@ -714,6 +719,46 @@ def person():
     print(f'@property: {john3.prop_full_name}')  # @property: John Doe
 
 
+def city():
+    city1 = City('São Paulo', 'Pinheiros')
+    city2 = City('Rio de Janeiro', 'Copacabana')
+
+    print()
+    print(city1)  # <metaclass_.City object at 0x0000020BA5E7A300>
+    print(city2)  # Cidade: Rio de Janeiro - Bairro: Copacabana
+    print(type(city2))  # <class 'metaclass_.City'>
+    print(f'Bairro: {city2.neighborhood}')  # Bairro: Copacabana
+
+    print()
+    # criado a partir da class type
+    neigh = Neighborhood('Batel', '80420-060')
+    print(neigh.name)  # Batel
+
+    # metaclass (MetaDog)
+    print()
+    # __new__ da metaclass (antes da class ser criada)
+    print(type(Dog))  # <class 'metaclass_.MetaDog'>
+    dog = Dog('Billy', 5)
+    # __new__ da class
+    # __init__ da class
+    print(dog.name)  # Billy
+    print(f'Seu dog {dog.name} tem {dog.age} anos.')  # Seu dog Billy tem 5 anos.
+
+    # ensino extra
+    # créditos: Prof. Otávio Miranda
+    print()
+    print(type(PersonOM))  # <class 'metaclass_.MetaDog'>
+    person1 = PersonOM('Luiz', 'Miranda')
+    person2 = PersonOM('Vera', 'Cavalcante')
+
+    print(person1.name)  # Luiz
+    print(person2.lastname)  # Cavalcante
+
+    # if True (method.__is_abstract__ = True) Error -> NotImplementedError: full_name not implemented in Person
+    # obrigado implementar full_name da class PAI abstrata
+    print(person2.full_name)  # Vera Cavalcante
+
+
 # Testes Individuais!
 if __name__ == '__main__':
     # classe
@@ -746,3 +791,6 @@ if __name__ == '__main__':
 
     # dataclass_
     person()
+
+    # metaclass_
+    city()
