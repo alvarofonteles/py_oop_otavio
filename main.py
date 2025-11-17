@@ -42,6 +42,7 @@ from relacionamentos import (
 )
 from heranca import Pessoa, Cliente as cli, Aluno
 from polimorfismo import Cachorro, Gato, Pato, Leao, fazer_barulho
+from dataclass_ import OldPerson, Person
 
 
 # classe
@@ -646,7 +647,7 @@ def polimorfismo():
     # Mesma interface, comportamentos diferentes
     for animal in animais:
         print(f'{animal.nome_class}: {animal.falar()}')
-        
+
     # Cachorro: au au!
     # Gato: miau!
     # Pato: quack!
@@ -662,6 +663,55 @@ def polimorfismo():
     # miau!
     # quack!
     # roar!
+
+
+def person():
+    john1 = OldPerson('John', 'Doe')
+    john2 = OldPerson('John', 'Doe2')
+    mary = OldPerson('Mary', 'Jane')
+
+    print()
+    print(f'__str__ {john1}')  # __str__ (OldPerson) (John Doe)
+    print(f'__repr__ {repr(mary)}')  # __repr__ (OldPerson) (Mary Jane)
+    print(john1.name)
+
+    # __eq__
+    print(john1 == john2)  # Sem __eq__ é False
+    print(john1 == john2)  # Com __eq__ é True
+    # se mudar o lastname ('Doe2') passa a ser False
+
+    # Com dataclass
+    # Vem tudo padrão
+
+    # keyword=True
+    john3 = Person(
+        name='John', lastname='Doe', active=True, adresses=['R1'], full_name='John Doe'
+    )
+    john4 = Person(name='John', lastname='Doe')
+    john5 = Person(name='John', lastname='Doe2')  # Sobrenome diferente!
+    mary2 = Person(name='Mary', lastname='Jane', adresses=['R2'])
+
+    print()
+    print(
+        john3
+    )  # Person(name='John', lastname='Doe', class_name='Person', active=True, adresses=['R1'], full_name='John Doe')
+    print(
+        repr(mary2)
+    )  # Person(name='Mary', lastname='Jane', class_name='Person', active=False, adresses=['R2'], full_name='Mary Jane')
+    # com o post_init fica [full_name='Missing']
+    print(john3.name)  # John
+
+    print(john4 == john5)  # False - porque os campos são diferentes
+    print(john4.name == john5.name)  # True - ambos são 'John'
+    print(john4.lastname == john5.lastname)  # False - 'Doe' != 'Doe2'
+
+    # função
+    print(
+        f'function get_full_name(): {john3.get_full_name()}'
+    )  # function get_full_name(): John Doe
+
+    # getter @property
+    print(f'@property: {john3.prop_full_name}')  # @property: John Doe
 
 
 # Testes Individuais!
@@ -693,3 +743,6 @@ if __name__ == '__main__':
 
     # polimorfismo
     polimorfismo()  # extra
+
+    # dataclass_
+    person()
